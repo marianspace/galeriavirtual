@@ -12,12 +12,12 @@
     <div class="card bg-light">
         <div class="card-body">
             <h5><b>Obra: {{obra.titulo}}</b></h5> Artista: {{obra.artista}} </p>
-            <img src="{{obra.fotoobra.url}}" alt="{{obra.titulo}}" width="150" height="150" class="img-fluid"/>
-            <td>
-            <a class="btn btn-danger m-1" href="{% url 'detalleobra' obra.id %}" >Ver obra</a>
+            <img src="{{obra.fotoobra.url}}" alt="{{obra.titulo}}" width="150" height="150" class="img-fluid"/><br>
+            {% if request.user.is_authenticated %} 
             <a class="btn btn-success m-1" href="{% url 'actualizarobra' obra.id %}">Actualizar obra</a>
             <a class="btn btn-primary m-1" a href='{% url 'obraeliminar' obra.titulo %}' >Eliminar obra</a>
-            </td>
+            {% endif %}
+            
         </div>
     </div>
 </div>

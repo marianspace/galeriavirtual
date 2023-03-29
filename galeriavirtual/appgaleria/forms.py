@@ -63,7 +63,7 @@ class usuarioformregistro(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields.update(avatarform().fields)
-
+        
     def save(self, commit=True):
         user = super().save(commit=False)
         imagen = self.cleaned_data.get('imagen')
@@ -72,15 +72,24 @@ class usuarioformregistro(forms.ModelForm):
             user.set_password(password)
             user.save()
             if imagen:
-                avatars = avatar(user=user, imagen=imagen)
-                avatar.save()
+               avatars = avatar(user=user, imagen=imagen)  
+               avatars.save()  
         return user
+ 
 
 class avatarform(forms.ModelForm):
        class Meta:
         model = avatar
         fields = ["imagen"]
-        widgets = {'imagen': forms.FileInput(attrs={'required': True})} #Obligo al usuario a ingresar una imagen para no generar errores
+        widgets = {'imagen': forms.FileInput(attrs={'required': True})} 
+        
+class avatarform(ModelForm):
+     class Meta:
+         model = avatar
+         fields ={
+             'user',
+             'imagen' 
+         }
     
 class obraForm(forms.ModelForm):
     class Meta:
@@ -94,10 +103,3 @@ class obraForm(forms.ModelForm):
             'vendida'
             ]
 
-class avatarform(ModelForm):
-     class Meta:
-         model = avatar
-         fields ={
-             'user',
-             'imagen' 
-         }

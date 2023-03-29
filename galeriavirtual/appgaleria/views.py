@@ -56,13 +56,12 @@ def obra_eliminar(request, pk):
     obra_eliminar = obra.objects.get(titulo=pk)
     if request.method == 'POST':
         obra_eliminar.delete()
-        return render(request, "appgaleria/obrastodas.html")
+        return render(request, "appgaleria/home.html")
     context = {'obra':obra_eliminar}
     return render(request, 'appgaleria/obras/eliminar_obra.html', context)
 
-def obra_detalle(request, pk):
-    obra = get_object_or_404(obra, pk=pk)
-    return render(request, 'appgaleria/obras/obra_detalle.html', {'obra': obra})
+def obra_detalle(request):
+    return render(request, 'adetalleobra')
         
 @login_required
 def obra_editar(request, pk):
@@ -137,8 +136,8 @@ def usuarios_singup(request):
         if form.is_valid():    
             username = form.cleaned_data['username']
             form.save()
-            return render(request, 'appgaleria/usuarios/usuario_nuevo.html', {'msj':f'Se creo el user {username}'})
+            return render(request, 'appgaleria/usuarios/usuario_perfil.html', {'msj':f'Se creo el user {username}'})
         else:
-            return render(request, 'appgaleria/usuarios/usuario_nuevo.html', {'form':form})
+            return render(request, 'appgaleria/usuarios/usuario_perfil.html', {'form':form})
      form = usuarioformregistro()
      return render(request, 'appgaleria/usuarios/usuario_nuevo.html', {'form':form})

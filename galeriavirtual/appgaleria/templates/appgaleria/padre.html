@@ -32,7 +32,7 @@
                         {% if request.user.is_authenticated %} 
                             <li class="nav-link"><a class="nav-link" href={% url 'registro_obra'%} >Registrar obra</a></li>
                             <li class="nav-link"><a class="nav-link" href={% url 'perfil'%}>Perfil </a></li>
-                            <li class="nav-link"><a class="nav-link" href={% url 'home' %}>Logout </a></li>
+                            <li class="nav-link"><a class="nav-link" href={% url 'logout' %}>Logout </a></li>
                         {% else %}
                             <li class="nav-link"><a class="nav-link" href={% url 'login'%}>Login </a></li>
                             <li class="nav-link"><a class="nav-link" href={% url 'singup'%}>Registrar</a></li>
