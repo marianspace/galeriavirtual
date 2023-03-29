@@ -1,0 +1,21 @@
+{% extends 'appgaleria/padre.html' %}
+{% block content %}
+<section class="pt-4">
+    <div class="container">
+            <h3><FONT COLOR="blue">Buscar obras</FONT></h3>
+            Si no ingresas nada aparecen todas las obras del catalogo
+    <form action="{% url 'buscarobras' %}" method="get">
+        <label for="titulo"><b> Título:</b></label>
+        <input type="text" id="titulo" name="titulo" value="{{ request.GET.titulo }}">
+        <button type="submit">Buscar</button>
+    </form>
+         {% if resultados %}
+         <h3><FONT COLOR="blue">Resultados</FONT></h3>
+        <ul>
+         {% for obra in resultados %}
+        <b>Obra: </b>{{ obra.titulo }} <b>| Artista: </b> {{ obra.artista }} <img src="{{obra.fotoobra.url}}" alt="{{obra.titulo}}" width="150" height="150" class="img-fluid"/><br>
+        {% endfor %}
+        {% endif %}
+</div>
+</section>
+{% endblock content %}

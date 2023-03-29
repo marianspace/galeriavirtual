@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% load static %} 
+        {% block head %}  
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Agalery - Galeria de arte</title>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <link href="{% static 'agalery/css/styles.css' %}" rel="stylesheet" />
+        {% endblock head %}
+    </head>
+    {% block nav %}
+    <!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg" navbar-light bg-light"">
+            <div class="container px-lg-5">
+            <!--<a class="navbar-brand" href="#!">Start Bootstrap</a>-->
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <li class="nav-link"><a class="nav-link" href={% url 'home'%}>Agalery</a></li>
+                            <li class="nav-link"><a class="nav-link" href={% url 'nosotros' %}>Nosotros</a></li>
+                            <li class="nav-link"><a class="nav-link" href={% url 'obratodas' %}>Obras</a></li>
+                            <li class="nav-link"><a class="nav-link" href={% url 'buscarobras' %}>Buscar Obra</a></li>  
+                            <li class="nav-link"><a class="nav-link" href={% url 'usuarios'%}>Artistas </a></li>  
+                    
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    {% if request.user.is_authenticated %}
+                    <li><img src="{{url}}" style="max-height: 40px; max-width: 40px;"></li>
+                    {% endif %}
+                        {% if request.user.is_authenticated %} 
+                            <li class="nav-link"><a class="nav-link" href={% url 'registro_obra'%} >Registrar obra</a></li>
+                            <li class="nav-link"><a class="nav-link" href={% url 'perfil'%}>Perfil </a></li>
+                            <li class="nav-link"><a class="nav-link" href={% url 'home' %}>Logout </a></li>
+                        {% else %}
+                            <li class="nav-link"><a class="nav-link" href={% url 'login'%}>Login </a></li>
+                            <li class="nav-link"><a class="nav-link" href={% url 'singup'%}>Registrar</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>  
+        {% endblock nav %}
+    <body>
+        <header class="py-1"> <div class="bg-light rounded-1 text-center">  
+            <h1 class="display-3 fw-bold">
+                AGalery
+            </h1>  </div> </header>
+    <!-- Page Content-->
+        <section class="py-1">
+            <div class="container-sm">
+                <div class="bg-light rounded-1 text-center">
+                    <div class="m-1 m-lg-1">                  
+{% block content %}
+<!-- Aca va el código que cambia -->
+{% endblock content %}                    
+                    </div>
+                </div>
+            </div>
+        </section>
+    <!-- Footer-->
+        {% block footer %}
+        <footer class="py-10 bg-dark">          
+                <div class="container">       
+                <div class="copyright text-center text-xl-left text-muted">
+                                copyright &copy; 2023 - Template Frankenstein
+                </div>
+            </div>          
+        </footer>
+        {% endblock footer %}
+    <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>
+

@@ -1,0 +1,15 @@
+{% extends 'appgaleria/padre.html' %}
+{% block content %}
+<div class="container">
+<a class="btn btn-outline-dark mt-5" href={% url 'buscarartista' %}>Buscar Artista</a>
+</div>
+<div class="col-nd-4 p-4">
+  <div class="card bg-light">
+      <div class="card-body">
+      {% for u in users %}
+        <b>Nombre:</b> {{u.first_name}} {{u.last_name}}<b>- id usuario </b> {{u.username}}<b>- Contacto</b> {{u.email}} <br> 
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock content %}      

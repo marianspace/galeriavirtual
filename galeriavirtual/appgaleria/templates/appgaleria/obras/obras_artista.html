@@ -1,0 +1,20 @@
+{% extends 'appgaleria/padre.html' %}
+{% block content %}
+<section class="pt-4">
+    <div class="container">
+            <h3><FONT COLOR="blue">Buscar por Artista</FONT></h3>
+    <form action="{% url 'buscarartista' %}" method="get">
+        <label for="Usuario"><b> Id usuario:</b></label>
+        <input type="text" id="username" name="titulo" value="{{request.GET.username }}">
+        <button type="submit">Buscar</button>
+    </form>
+         {% if resultados %}
+         <h3><FONT COLOR="blue">Resultados</FONT></h3>
+        <ul>
+         {% for obra in resultados %}
+        <b>Obra: </b>{{ obra.titulo }} <b>| Artista: </b> {{ obra.artista }} <img src="{{obra.fotoobra.url}}" alt="{{obra.titulo}}" width="150" height="150" class="img-fluid"/><br>
+        {% endfor %}
+        {% endif %}
+</div>
+</section>
+{% endblock content %}

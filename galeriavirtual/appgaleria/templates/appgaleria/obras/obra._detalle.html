@@ -1,0 +1,19 @@
+{% extends 'appgaleria/padre.html' %}
+{% block content %}
+<ul>
+                <p class="card-text"><b>{{obra.titulo}}</b> | $ {{obra.precio}}</p>
+                {% if request.user.is_authenticated %}
+                {% endif %}                            
+              
+                <h5><b>Obra: {{obra.titulo}}</b></h5> Artista: {{obra.artista}} </p>
+                <img src="{{obra.fotoobra.url}}" alt="{{obra.titulo}}" width="150" height="150" class="img-fluid"/>
+                <td>
+                <a class="btn btn-danger m-1">Ver obra</a>
+                <a class="btn btn-success m-1" >Actualizar obra</a>
+                <a class="btn btn-primary m-1" a href='{% url 'obraeliminar' obra.titulo %}' >Eliminar obra</a></div>
+              {% if post.imagen %}
+              <img  src="{{post.imagen.url}}"alt="" width="300" height="300"  >
+              {% else %} {% endif %}
+
+  </ul>
+{% endblock content %}

@@ -1,0 +1,19 @@
+{% extends 'appgaleria/padre.html' %}
+{% block content %}
+<h1>usuariodetalle</h1>
+    <div>
+   </div>
+    <h5>
+        {% if mas_datos.imagen %}
+        <img src="{{mas_datos.imagen.url}}" alt="Agaleria\avatares\580b57fcd9996e24bc43c325.pngg"  width="250" height="250" >
+        {% else %}
+        <img src="Agaleria\avatares\580b57fcd9996e24bc43c325.png" alt="..." width="250" height="250"/>
+        {% endif %}
+        <li>{{request.user.username}}</li>
+        <li>{{request.user.first_name}}</li>
+        <li>{{request.user.last_name}}</li>
+        <li>{{request.user.email}}</li>
+        <li>{{mas_datos.link}}</li>
+        <li>{{mas_datos.bio}}</li>
+    </h5>
+{% endblock content %}

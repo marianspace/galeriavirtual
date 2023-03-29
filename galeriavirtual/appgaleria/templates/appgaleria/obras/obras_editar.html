@@ -1,0 +1,15 @@
+{% extends 'appgaleria/padre.html' %}
+{% block content %}
+<h1>Editar obra</h1>
+    
+{% if miFormulario.errors %}
+<p style="color: red;"> Están mal los datos, revisar</p>
+{% endif %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Crear obra</button>
+  </form>
+
+
+{% endblock content %}

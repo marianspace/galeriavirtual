@@ -1,0 +1,8 @@
+{% extends 'appgaleria/padre.html' %}
+{% block content %}
+<form method="post">
+  {% csrf_token %}
+  Confirma el borrado?
+  <input type="submit" value="Si">
+</form>
+{% endblock content %}

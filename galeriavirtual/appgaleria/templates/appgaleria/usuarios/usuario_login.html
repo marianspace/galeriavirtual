@@ -1,0 +1,10 @@
+{% extends 'appgaleria/padre.html' %}
+{% block content %}
+<h1 style="display: flex; justify-content: center;">Iniciar Sesión</h1>
+<form action="" method="post" class="formularios">
+    {% csrf_token %}
+    {{log.as_p}}
+    <button type="submit" class="boton_regular">Iniciar Sesión</button>
+</form>
+<p>¿No tienes cuenta? Crea una ingresando <a href="{% url 'singup' %}">aqui</a></p>
+{% endblock content %}
