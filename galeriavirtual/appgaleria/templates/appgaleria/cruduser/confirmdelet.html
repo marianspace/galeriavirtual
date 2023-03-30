@@ -1,0 +1,7 @@
+{% extends 'appgaleria/padre.html' %}
+{% block content %}
+<h1>Perfil</h1>
+<form method="POST"> {% csrf_token %}
+    ¿Seguro que eliminas? {{object}}
+<input type="sumbit" value="Submit"/>
+    {% endblock content %}

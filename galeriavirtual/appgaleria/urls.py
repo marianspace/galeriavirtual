@@ -15,7 +15,6 @@ urlpatterns = [
     path('obradetalle/<int:pk>/', views.obra_detalle, name='detalleobra'),
     path('editarobra/<int:pk>/', views.obra_editar, name='actualizarobra'),
     path('eliminarorba/<str:pk>/', obra_eliminar, name='obraeliminar'),
-       
     path('usuario_lista/', views.usuarios, name='usuarios'),    
     path('usuario_nuevo/', views.usuarios_singup, name="singup"),
     path('usuario_login/', views.usuarios_login, name='login'),
@@ -23,5 +22,9 @@ urlpatterns = [
     path('editaruser/<int:pk>/', views.obra_editar, name='actualizar'),
     path('eliminaruser/<str:pk>/', views.usuario_eliminar, name='eliminar'),
     path('logout/', LogoutView.as_view(template_name="appgaleria/home.html"), name='logout'),
-    # path('', views.usuarios_eliminar, name='usereliminar'),
-     ]
+    path('usuario_lista', views.listausuarios.as_view(), name='list'),  
+    path(r'^(?P<pk>\d+)/$', views.detalleuser.as_view(), name='detail'),
+    path(r'^nuevo$', views.crearuser.as_view(), name='new'),
+    path(r'^editar/(?P<pk>\d+)/$', views.updateuser.as_view(), name='edit'),
+    path(r'^borrar/(?P<pk>\d+)/$', views.deleteuser.as_view(), name='delet'),
+    ]

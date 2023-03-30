@@ -10,15 +10,17 @@ from django.contrib.auth.forms import AuthenticationForm
 from .models import *
 from .forms import *
 
+
+
 # Create your views here.
 
-def inicio(request): #
-     return render(request, "appgaleria/home.html")
+def inicio(request): #    
+    return render(request, "appgaleria/home.html",)
 
-def nosotros(request): #
-     return render(request, "appgaleria/nosotros.html")
+def nosotros(request): #     
+     return render(request, "appgaleria/nosotros.html",)
 
-def obra_buscar(request): #
+def obra_buscar(request): #     
      query = request.GET.get('titulo')
      if query is not None:
          resultados = obra.objects.filter(titulo__icontains=query)
@@ -53,7 +55,7 @@ def obra_nueva(request): #
 
 @login_required
 def obra_eliminar(request, pk):
-    obra_eliminar = obra.objects.get(titulo=pk)
+    obra_eliminar = obra.objects.get(id=pk)
     if request.method == 'POST':
         obra_eliminar.delete()
         return render(request, "appgaleria/home.html")
@@ -141,3 +143,47 @@ def usuarios_singup(request):
             return render(request, 'appgaleria/usuarios/usuario_perfil.html', {'form':form})
      form = usuarioformregistro()
      return render(request, 'appgaleria/usuarios/usuario_nuevo.html', {'form':form})
+ 
+def veravatar(request): 
+    avatar_url = avatar.objects.filter(user=request.user).first().imagen.url
+    context = {'avatar_url': avatar_url}
+    return render(request, 'obras_artistas.html', context)
+
+# CRUD
+class listausuarios(ListView):
+    model = User
+    template_name = 'appgaleria/usuarios/cruduser/user_list.html'
+
+class detalleuser(DetailView):
+     model = User
+     template_name = 'appgaleria/usuarios/cruduser/user_list.html'
+
+class crearuser(CreateView):
+    model = User
+    success_url = 'appgaleria/usuarios/cruduser/user_list.html'
+    fields =[
+           'first_name',   
+           'last_name',
+           'email',
+           'username',     
+           'password1', 
+           'password2',
+           'avatar'
+]
+    
+
+class updateuser(UpdateView):
+   model = User
+   success_url = 'appgaleria/usuarios/cruduser/user_list.html'
+   fields =[
+           'first_name',   
+           'last_name',
+           'email',
+           'username',     
+           'password1', 
+           'password2',
+           'avatar'
+]
+class deleteuser(DeleteView):
+  model = User
+  success_url = 'appgaleria/usuarios/usuario_lista.html'

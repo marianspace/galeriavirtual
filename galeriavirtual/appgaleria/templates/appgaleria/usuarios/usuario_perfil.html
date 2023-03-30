@@ -8,11 +8,11 @@
 {% endif %}
 <ul>
     {% if request.user.is_authenticated %}
-    {% endif %}     
+    {% endif %}  
     {% if mas_datos.avatar %}
-    <img src="{{ mas_datos.avatar.url }}" alt="Avatar de {{ request.user.username }}" width="250" height="250" >
+   <img src="{{ avatar.imagen.url }}" alt="Avatar de {{ request.user.username }}" width="250" height="250" >
     {% endif %}    
-    <img src="{{ mas_datos.avatar.url }}" alt="Avatar de {{ request.user.username }}" width="250" height="250" > 
+    <img src="{{ avatar.imagen.url }}" alt="Avatar de {{ request.user.username }}" width="250" height="250" > 
     <p><b>Nombre:</b> {{ request.user.first_name }} {{ request.user.last_name }} </p>
         <p><b>Usuario:</b> {{ request.user.username }}  </p>       
             <p><b>Mail:</b> {{ request.user.email }}  </p>
