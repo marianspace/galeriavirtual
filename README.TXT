@@ -8,5 +8,8 @@ El proyecto está mejor que le vez anterior
 Link de Youtube
 https://youtu.be/WB6L2YlePXY
 
+Nuevo link de video
+https://youtu.be/NghTIf7wcQc
+
 Requerimientos
 Requiere instalar Pillow comando python -m pip install pillow
