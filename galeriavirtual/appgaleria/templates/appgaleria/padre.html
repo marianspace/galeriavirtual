@@ -65,9 +65,11 @@
                 <div class="container">       
                 <div class="copyright text-center text-xl-left text-muted">
                                 {% if request.user.is_authenticated %}
-                                <img src="{{ avatar_url }}" alt="Avatar de {{ request.user.username }}" width="250" height="250">
-                                <p class="text-muted small mb-4 mb-lg0"> Hola, {{user.username}}</p>
-                                {% endif %}
+                                {% with avatar_url=avatar.imagen %}
+                                    <img src="{% static avatar_url %}" alt="Avatar de {{ request.user.username }}" width="250" height="250">
+                                    <p class="text-muted small mb-4 mb-lg0"> Hola, {{user.username}}</p>
+                                {% endwith %}
+                            {% endif %}
                 </div>
             </div>          
         </footer>

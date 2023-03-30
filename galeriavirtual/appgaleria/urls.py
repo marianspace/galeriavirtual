@@ -23,7 +23,7 @@ urlpatterns = [
     path('editaruser/<int:pk>/', views.usuarios_editar, name='actualizar'),
     path('eliminaruser/<str:pk>/', views.usuario_eliminar, name='eliminar'),
     path('logout/', LogoutView.as_view(template_name="appgaleria/home.html"), name='logout'),
-    path('usuario_lista', views.listausuarios.as_view(), name='list'),  
+    #path('usuario_lista', views.listausuarios.as_view(), name='list'),  
     # path(r'^(?P<pk>\d+)/$', views.detalleuser.as_view(), name='detail'),
     # path(r'^nuevo$', views.crearuser.as_view(), name='new'),
     # path(r'^editar/(?P<pk>\d+)/$', views.updateuser.as_view(), name='edit'),
