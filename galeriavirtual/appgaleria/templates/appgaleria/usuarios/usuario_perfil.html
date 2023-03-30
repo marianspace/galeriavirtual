@@ -3,8 +3,8 @@
 {% load static %}
 <h1>Perfil</h1>
 {% if request.user.is_authenticated %} 
-<a class="btn btn-success m-1" >Actualizar obra</a>
-<a class="btn btn-primary m-1" >Eliminar obra</a>
+<a class="btn btn-success m-1" a href="{% url 'actualizar' user.id %}">Actualizar obra</a>
+<a class="btn btn-primary m-1"a href="{% url 'eliminar' user.id %}">Eliminar obra</a>
 {% endif %}
 <ul>
     {% if request.user.is_authenticated %}
@@ -13,10 +13,15 @@
    <img src="{{ avatar.imagen.url }}" alt="Avatar de {{ request.user.username }}" width="250" height="250" >
     {% endif %}    
     <img src="{{ avatar.imagen.url }}" alt="Avatar de {{ request.user.username }}" width="250" height="250" > 
-    <p><b>Nombre:</b> {{ request.user.first_name }} {{ request.user.last_name }} </p>
-        <p><b>Usuario:</b> {{ request.user.username }}  </p>       
-            <p><b>Mail:</b> {{ request.user.email }}  </p>
-                <p><b>Link:</b> {{ mas_datos.link }}   </p>
-                    <p><b>Bio:</b> {{ mas_datos.bio }}</p>
+                </ul>
+                <ul>
+<body>
+    <p><h3><b>Usuario:</b> {{ user.username }} </h3></p>  
+    <p><b>Nombre Completo:</b>{{ user.first_name }}{{ user.last_name }}</p> 
+    <p><strong>Mail:</strong> {{ user.email}}</p>
+    <p><strong>link:</strong> {{ user.link}}</p>
+    <p><strong>bio:</strong> {{ user.bio}}</p>
+</body>
 </ul>
+</html>
 {% endblock content %}

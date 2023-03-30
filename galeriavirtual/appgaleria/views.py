@@ -10,8 +10,6 @@ from django.contrib.auth.forms import AuthenticationForm
 from .models import *
 from .forms import *
 
-
-
 # Create your views here.
 
 def inicio(request): #    
@@ -63,7 +61,7 @@ def obra_eliminar(request, pk):
     return render(request, 'appgaleria/obras/eliminar_obra.html', context)
 
 def obra_detalle(request):
-    return render(request, 'adetalleobra')
+    return render(request, 'detalleobra')
         
 @login_required
 def obra_editar(request, pk):
@@ -81,26 +79,10 @@ def obra_editar(request, pk):
     return render(request, 'appgaleria/obras/obras_editar.html', context)
    
 #Vista de Usuario
-def usuario_pefil(request):
-    mas_datos, _ = User.objects.get_or_create(username=request.user)
-    return render(request, 'appgaleria/usuarios/usuario_perfil.html', 
-                  {'mas_datos':mas_datos ,
-                   #'user_avatar':buscar_url_avatar(request.user)
-                   })
-
 def usuarios(request): #
      user = User.objects.all()
      data = {'users' : user}
      return render(request, 'appgaleria/usuarios/usuario_lista.html', data)
-
-@login_required
-def usuario_eliminar(request,pk):
-    eliminarperfil = User.objects.get(id=pk)
-    if request.method == 'POST':
-        eliminarperfil.delete()
-        return render(request, "appgaleria/home.html")
-    context = {'obra' :eliminarperfil}
-    return render(request, 'appgaleria/obras/usuario_delete.html', context)
 
 def usuarios_login(request): #
     if request.user.is_authenticated == True:
@@ -117,73 +99,51 @@ def usuarios_login(request): #
     log = AuthenticationForm()
     return render(request, 'appgaleria/usuarios/usuario_login.html', {"log":log})
 
-@login_required
-def usuarios_editar(request, pk):
-    obra_editar = User.objects.get(id=pk)
-    form = usuarioformregistro(instance=obra_editar)
-    if request.method == 'POST':
-        form = usuarioformregistro(request.POST, request.FILES, instance=obra_editar)
-        print(form)
-        if form.is_valid():
-            user_nueva = form.save(commit=False)
-            user_nueva.artista = request.user # O cualquier otro valor para el artista
-            user_nueva.save()
-            return render(request, "appgaleria/home.html")
-    context = {'form':form}
-    return render(request, 'appgaleria/obras/usuario_editar.html', context)
-
 def usuarios_singup(request):
      if request.method == 'POST':
         form = usuarioformregistro(request.POST,request.FILES)
         if form.is_valid():    
             username = form.cleaned_data['username']
             form.save()
-            return render(request, 'appgaleria/usuarios/usuario_perfil.html', {'msj':f'Se creo el user {username}'})
+            return render(request, 'appgaleria/home.html', {'msj':f'Se creo el user {username}'})
         else:
-            return render(request, 'appgaleria/usuarios/usuario_perfil.html', {'form':form})
+            return render(request, 'appgaleria/home.html', {'form':form})
      form = usuarioformregistro()
      return render(request, 'appgaleria/usuarios/usuario_nuevo.html', {'form':form})
  
+def usuario_pefil(request):
+    mas_datos, _ = User.objects.get_or_create(username=request.user)
+    return render(request, 'appgaleria/usuarios/usuario_perfil.html', 
+                  {'mas_datos':mas_datos ,
+                   #'user_avatar':buscar_url_avatar(request.user)
+                   })
+
+@login_required
+def usuario_eliminar(request,pk):
+    eliminarperfil = User.objects.get(id=pk)
+    if request.method == 'POST':
+        eliminarperfil.delete()
+        return render(request, "appgaleria/home.html")
+    context = {'obra' :eliminarperfil}
+    return render(request, 'appgaleria/usuarios/usuario_delete.html', context)
+
+@login_required
+def usuarios_editar(request, pk):
+    ueditar = User.objects.get(id=pk)
+    form = usuarioformregistro(instance=ueditar)
+    if request.method == 'POST':
+        form = usuarioformregistro(request.POST, request.FILES, instance=ueditar)
+        print(form)
+        if form.is_valid():
+            user_nueva = form.save(commit=False)
+            user_nueva.username = request.user.username
+            user_nueva.save()
+            return render(request, "appgaleria/home.html")
+    context = {'form':form}
+    return render(request, 'appgaleria/usuarios/usuario_editar.html', context)
+
 def veravatar(request): 
     avatar_url = avatar.objects.filter(user=request.user).first().imagen.url
     context = {'avatar_url': avatar_url}
     return render(request, 'obras_artistas.html', context)
 
-# CRUD
-class listausuarios(ListView):
-    model = User
-    template_name = 'appgaleria/usuarios/cruduser/user_list.html'
-
-class detalleuser(DetailView):
-     model = User
-     template_name = 'appgaleria/usuarios/cruduser/user_list.html'
-
-class crearuser(CreateView):
-    model = User
-    success_url = 'appgaleria/usuarios/cruduser/user_list.html'
-    fields =[
-           'first_name',   
-           'last_name',
-           'email',
-           'username',     
-           'password1', 
-           'password2',
-           'avatar'
-]
-    
-
-class updateuser(UpdateView):
-   model = User
-   success_url = 'appgaleria/usuarios/cruduser/user_list.html'
-   fields =[
-           'first_name',   
-           'last_name',
-           'email',
-           'username',     
-           'password1', 
-           'password2',
-           'avatar'
-]
-class deleteuser(DeleteView):
-  model = User
-  success_url = 'appgaleria/usuarios/usuario_lista.html'
