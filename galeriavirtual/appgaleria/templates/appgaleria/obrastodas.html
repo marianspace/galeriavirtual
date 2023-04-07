@@ -6,13 +6,13 @@
 {% endif %}
     <a class="btn btn-outline-dark mt-5" href={% url 'buscarartista' %}>Buscar Artista</a>
 </div>
-
     {% for obra in obras %}
         <div class="col-lg p-1">
             <div class="card bg-light">
                 <div class="card-body">
                     <h4><b>{{obra.titulo}}</b></h4>de {{obra.artista}}<br>
                     <img src="{{obra.fotoobra.url}}" alt="{{obra.titulo}}" width="300" height="300" class="img-fluid"><br>
+                    {{obra.vendida}}
                    <p> {% if request.user.is_authenticated %} 
                     <div class="btn-group" role="group">
                         <a class="btn btn-success m-1" a href="{% url 'actualizarobra' obra.id %}">Actualizar obra</a>
@@ -23,8 +23,5 @@
             </div>
         </div>
     {% endfor %}
-
-
-
 {% endblock content %}
 
