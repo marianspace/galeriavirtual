@@ -3,8 +3,8 @@
 {% load static %}
 <h1>Perfil</h1>
 {% if request.user.is_authenticated %} 
-<a class="btn btn-success m-1" a href="{% url 'actualizar' user.id %}">Actualizar obra</a>
-<a class="btn btn-primary m-1"a href="{% url 'eliminar' user.id %}">Eliminar obra</a>
+<a class="btn btn-success m-1" a href="{% url 'actualizar' user.id %}">Actualizar perfil</a>
+<a class="btn btn-primary m-1"a href="{% url 'eliminar' user.id %}">Eliminar perfil</a>
 {% endif %}
 <ul>
     {% if request.user.is_authenticated %}

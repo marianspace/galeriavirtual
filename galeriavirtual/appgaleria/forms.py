@@ -24,6 +24,9 @@ class usuarioform(UserCreationForm):
             "password1", 
             "password2"
             ]
+        
+    def __str__(self):
+        return f"{self.username} - "
 
 class usuarioeditarform(UserCreationForm):
     first_name = forms.CharField(label="Nombre")    

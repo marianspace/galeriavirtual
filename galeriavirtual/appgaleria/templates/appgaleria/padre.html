@@ -49,13 +49,14 @@
             </h1>  </div> </header>
     <!-- Page Content-->
         <section class="py-1">
-            <div class="container-sm">
-                <div class="bg-light rounded-1 text-center">
-                    <div class="m-1 m-lg-1">                  
+             <div class="container-sm">
+                <div class="bg-light rounded-1 text-center">           
 {% block content %}
-<!-- Aca va el código que cambia -->
+<div class="row">
+    <div class="col-md-4">
+      <!-- aquí va el contenido que quieres mover a la izquierda -->
+    </div>
 {% endblock content %}                    
-                    </div>
                 </div>
             </div>
         </section>
