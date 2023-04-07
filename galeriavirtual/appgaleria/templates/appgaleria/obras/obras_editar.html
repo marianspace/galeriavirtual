@@ -8,8 +8,8 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Crear obra</button>
+    <button type="submit"> Modificar </button>
   </form>
-
+  <li class="nav-link"><a class="nav-link" href={% url 'obratodas' %}>Volver a Obras</a></li>
 
 {% endblock content %}

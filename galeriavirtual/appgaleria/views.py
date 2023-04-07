@@ -60,9 +60,10 @@ def obra_eliminar(request, pk):
     context = {'obra':obra_eliminar}
     return render(request, 'appgaleria/obras/eliminar_obra.html', context)
 
-def obra_detalle(request):
-    return render(request, 'detalleobra')
-        
+def obra_detalle(request, pk):
+    obra_detalle = obra.objects.get(pk=pk)
+    return render(request, 'appgaleria/obras/obra._detalle.html', {'obra_detalle':obra_detalle})
+
 @login_required
 def obra_editar(request, pk):
     obra_editar = obra.objects.get(id=pk)

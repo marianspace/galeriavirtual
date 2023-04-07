@@ -11,9 +11,9 @@ urlpatterns = [
     path('obras_artistas/', views.obra_artista, name='buscarartista'),
     path('obrastodas/', views.obras, name='obratodas'),  
     path('obra_nueva/', views.obra_nueva, name='registro_obra'),
-    path('obra_detalle/', views.obra_detalle, name='obra'),
+    #path('obra_detalle/', views.obra_detalle, name='obra'),
     path('obradetalle/<int:pk>/', views.obra_detalle, name='detalleobra'),
-    path('editarobra/<int:pk>/', views.obra_editar, name='actualizarobra'),
+    path('/editarobra/<int:pk>', views.obra_editar, name='editarobra'),
     path('eliminarorba/<str:pk>/', obra_eliminar, name='obraeliminar'),
     
     path('usuario_lista/', views.usuarios, name='usuarios'),    
