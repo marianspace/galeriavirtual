@@ -10,7 +10,7 @@ class obra(models.Model):
     descripcion = models.CharField(max_length=300)
     fotoobra = models.ImageField(upload_to='fotoobras')
     precio = models.IntegerField(default=1)
-    vendida = models.BooleanField(default= False)
+    vendida = models.BooleanField(default= "no")
     def __str__(self):
         return f'{self.artista} - {self.titulo} - {self.precio}'
 

@@ -1,0 +1,12 @@
+{% extends 'appgaleria/padre.html' %}
+
+{% block content %}
+  <h1>Objetos de {{ usuario.username }}</h1>
+  <ul>
+    {% for objeto in objetos %}
+      <li>{{ objeto.titulo }}</li>
+    {% empty %}
+      <li>No hay objetos publicados por este usuario.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

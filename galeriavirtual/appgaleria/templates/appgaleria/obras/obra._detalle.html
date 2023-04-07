@@ -5,7 +5,7 @@
 {{ user.first_name }} {{ user.last_name }} <p> Usuario: {{ obra_detalle.artista }}
 {{ obra_detalle.titulol}}</p>
 <img src="{{obra_detalle.fotoobra.url}}" alt="{{obra_detalle.titulo}}" class="img-fluid"/></p> 
-Precio: ${{ obra_detalle.precio}} - Vendida: {{obra_detalle.vendida}} 
+Precio: ${{ obra_detalle.precio}} - Vendida: {{obra_detalle.vendida|yesno:"sí,no" }} 
 {{ obra_detalle.bio}}</p>
 <li class="nav-link"><a class="nav-link" href={% url 'obratodas' %}>Volver a Obras</a></li>
 </body>

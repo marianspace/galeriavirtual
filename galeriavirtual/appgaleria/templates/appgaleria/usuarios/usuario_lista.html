@@ -7,7 +7,12 @@
   <div class="card bg-light">
       <div class="card-body">
       {% for u in users %}
-        <b>Nombre:</b> {{u.first_name}} {{u.last_name}}<b>- id usuario </b> {{u.username}}<b>- Contacto</b> {{u.email}} <br> 
+        <b>Nombre:</b> {{u.first_name}} {{u.last_name}}<b>- id usuario </b> {{u.username}}<b>- Contacto</b> {{u.email}} 
+        {% for usuario in usuarios %}
+        <a href="{% url 'objeto_por_usuario' %}?nombre_de_usuario={{ usuario.username }}">{{ usuario.username }}</a>
+    {% endfor %}
+    
+        <br> 
       {% endfor %}
     </div>
   </div>

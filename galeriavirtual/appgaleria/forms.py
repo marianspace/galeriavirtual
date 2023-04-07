@@ -98,7 +98,7 @@ class obraForm(forms.ModelForm):
     class Meta:
         model = obra
         fields = [
-            'artista', 
+           # 'artista', 
             'titulo', 
             'descripcion', 
             'fotoobra', 

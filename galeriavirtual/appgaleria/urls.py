@@ -13,9 +13,10 @@ urlpatterns = [
     path('obra_nueva/', views.obra_nueva, name='registro_obra'),
     #path('obra_detalle/', views.obra_detalle, name='obra'),
     path('obradetalle/<int:pk>/', views.obra_detalle, name='detalleobra'),
-    path('/editarobra/<int:pk>', views.obra_editar, name='editarobra'),
+    path('editarobra/<int:pk>', views.obra_editar, name='editarobra'),
     path('eliminarorba/<str:pk>/', obra_eliminar, name='obraeliminar'),
-    
+    path('objetos/<str:username>/', ObjetosUsuarioListView.as_view(), name='objetos_usuario'),
+    path('acceso_denegado/', views.acceso_denegado, name='acceso_denegado'),
     path('usuario_lista/', views.usuarios, name='usuarios'),    
     path('usuario_nuevo/', views.usuarios_singup, name="singup"),
     path('usuario_login/', views.usuarios_login, name='login'),

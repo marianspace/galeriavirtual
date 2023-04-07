@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views.generic.edit import DeleteView, UpdateView, CreateView
@@ -17,6 +17,9 @@ def inicio(request): #
 
 def nosotros(request): #     
      return render(request, "appgaleria/nosotros.html",)
+ 
+def acceso_denegado(request): #     
+     return render(request, "appgaleria/acceso_denegado.html",)
 
 def obra_buscar(request): #     
      query = request.GET.get('titulo')
@@ -46,7 +49,7 @@ def obra_nueva(request): #
         form = obraForm(request.POST, request.FILES)
         if form.is_valid():
             obra_nueva = form.save(commit=False)
-            obra_nueva.artista = request.user # O cualquier otro valor para el artista
+            obra_nueva.artista = request.user 
             obra_nueva.save()
             return render(request, "appgaleria/home.html")
     return render(request, 'appgaleria/obras/obra_nueva.html', {'form': form})
@@ -54,11 +57,22 @@ def obra_nueva(request): #
 @login_required
 def obra_eliminar(request, pk):
     obra_eliminar = obra.objects.get(id=pk)
+    if request.user != obra_eliminar.artista:
+        return redirect('acceso_denegado')
     if request.method == 'POST':
         obra_eliminar.delete()
         return render(request, "appgaleria/home.html")
-    context = {'obra':obra_eliminar}
+    context = {'obra': obra_eliminar}
     return render(request, 'appgaleria/obras/eliminar_obra.html', context)
+
+    # if request.user != obra.artista:
+    #    return redirect('acceso_denegado')
+    # obra_eliminar = obra.objects.get(id=pk)
+    # if request.method == 'POST':
+    #     obra_eliminar.delete()
+    #     return render(request, "appgaleria/home.html")
+    # context = {'obra':obra_eliminar}
+    # return render(request, 'appgaleria/obras/eliminar_obra.html', context)
 
 def obra_detalle(request, pk):
     obra_detalle = obra.objects.get(pk=pk)
@@ -67,10 +81,11 @@ def obra_detalle(request, pk):
 @login_required
 def obra_editar(request, pk):
     obra_editar = obra.objects.get(id=pk)
+    if request.user != obra_editar.artista:
+        return redirect('acceso_denegado')
     form = obraForm(instance=obra_editar)
     if request.method == 'POST':
         form = obraForm(request.POST, request.FILES, instance=obra_editar)
-        print(form)
         if form.is_valid():
             obra_nueva = form.save(commit=False)
             obra_nueva.artista = request.user # O cualquier otro valor para el artista
@@ -78,7 +93,22 @@ def obra_editar(request, pk):
             return render(request, "appgaleria/home.html")
     context = {'form':form}
     return render(request, 'appgaleria/obras/obras_editar.html', context)
+    # obra_editar = obra.objects.get(id=pk)
+    # form = obraForm(instance=obra_editar)
+    # if request.user != User.username:
+    #     return redirect('acceso_denegado')
+    # if request.method == 'POST':
+    #       form = obraForm(request.POST, request.FILES, instance=obra_editar)
+    #       print(form)
+    #       if form.is_valid():
+    #         obra_nueva = form.save(commit=False)
+    #         obra_nueva.artista = request.user # O cualquier otro valor para el artista
+    #         obra_nueva.save()
+    #         return render(request, "appgaleria/home.html")
+    # context = {'form':form}
+    # return render(request, 'appgaleria/obras/obras_editar.html', context)
    
+
 #Vista de Usuario
 def usuarios(request): #
      user = User.objects.all()
@@ -148,3 +178,12 @@ def veravatar(request):
     context = {'avatar_url': avatar_url}
     return render(request, 'obras_artistas.html', context)
 
+class ObjetosUsuarioListView(ListView): # no aplicada aún
+    model = obra
+    template_name = 'appgaleria/porartista.html'
+    context_object_name = 'objetos'
+
+    def get_queryset(self):
+        User = get_user_model()
+        usuario = User.objects.get(username=self.kwargs['username'])
+        return obra.objects.filter(usuario=usuario)
