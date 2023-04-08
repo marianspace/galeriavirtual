@@ -13,34 +13,49 @@ from .forms import *
 # Create your views here.
 
 def inicio(request): #    
-    return render(request, "appgaleria/home.html",)
+    if request.user.is_authenticated:
+        avatar_usuario = avatar.objects.get(user=request.user)
+        context = {'avatar_usuario': avatar_usuario}
+    else:
+        context = {}
+    return render(request, "appgaleria/home.html", context)
 
-def nosotros(request): #     
-     return render(request, "appgaleria/nosotros.html",)
+def nosotros(request): #    
+    if request.user.is_authenticated:
+        avatar_usuario = avatar.objects.get(user=request.user)
+        context = {'avatar_usuario': avatar_usuario}
+    else:
+        context = {}
+    return render(request, "appgaleria/nosotros.html",context)
  
-def acceso_denegado(request): #     
-     return render(request, "appgaleria/acceso_denegado.html",)
+def acceso_denegado(request): #   
+    if request.user.is_authenticated:
+        avatar_usuario = avatar.objects.get(user=request.user)
+        context = {'avatar_usuario': avatar_usuario}
+    else:
+        context = {}
+    return render(request, "appgaleria/acceso_denegado.html", context)
 
-def obra_buscar(request): #     
-     query = request.GET.get('titulo')
-     if query is not None:
-         resultados = obra.objects.filter(titulo__icontains=query)
-     else:
+def obra_buscar(request): #   
+    query = request.GET.get('titulo')       
+    if query is not None:
+        resultados = obra.objects.filter(titulo__icontains=query)
+    else:
          resultados = []
-     return render(request, 'appgaleria/obras/obras_buscar.html', {'resultados': resultados})
+    return render(request, 'appgaleria/obras/obras_buscar.html',{'resultados': resultados} )
 
 def obra_artista(request): #
-     query = request.GET.get('titulo')
-     if query is not None:
+    query = request.GET.get('titulo')
+    if query is not None:
          resultados = obra.objects.filter(artista__username__icontains=query)
-     else:
+    else:
          resultados = []
-     return render(request, 'appgaleria/obras/obras_artista.html', {'resultados': resultados})
+    return render(request, 'appgaleria/obras/obras_artista.html', {'resultados': resultados} )
 
 # CRUD
 def obras(request): #
     obras = obra.objects.all()
-    return render(request, 'appgaleria/obrastodas.html', {'obras' : obras})
+    return render(request, 'appgaleria/obrastodas.html', {'obras' : obras},)
 
 @login_required
 def obra_nueva(request): #
@@ -56,13 +71,14 @@ def obra_nueva(request): #
 
 @login_required
 def obra_eliminar(request, pk):
+    avatar_usuario = avatar.objects.get(user=request.user)
     obra_eliminar = obra.objects.get(id=pk)
     if request.user != obra_eliminar.artista:
         return redirect('acceso_denegado')
     if request.method == 'POST':
         obra_eliminar.delete()
         return render(request, "appgaleria/home.html")
-    context = {'obra': obra_eliminar}
+    context = {'obra': obra_eliminar, 'avatar_usuario': avatar_usuario}
     return render(request, 'appgaleria/obras/eliminar_obra.html', context)
 
     # if request.user != obra.artista:
@@ -81,7 +97,7 @@ def obra_detalle(request, pk):
 @login_required
 def obra_editar(request, pk):
     obra_editar = obra.objects.get(id=pk)
-    if request.user != obra_editar.artista:
+    if request.user != obra_editar.artista: # solo permite al usuario dueño editar
         return redirect('acceso_denegado')
     form = obraForm(instance=obra_editar)
     if request.method == 'POST':
@@ -93,6 +109,7 @@ def obra_editar(request, pk):
             return render(request, "appgaleria/home.html")
     context = {'form':form}
     return render(request, 'appgaleria/obras/obras_editar.html', context)
+
     # obra_editar = obra.objects.get(id=pk)
     # form = obraForm(instance=obra_editar)
     # if request.user != User.username:
@@ -136,18 +153,21 @@ def usuarios_singup(request):
         if form.is_valid():    
             username = form.cleaned_data['username']
             form.save()
-            return render(request, 'appgaleria/home.html', {'msj':f'Se creo el user {username}'})
+            return render(request, 'appgaleria/usuarios/usuario_perfil.html', {'msj':f'Se creo el user {username}'})
         else:
-            return render(request, 'appgaleria/home.html', {'form':form})
+            return render(request, 'appgaleria/usuarios/usuario_perfil.html', {'form':form})
      form = usuarioformregistro()
      return render(request, 'appgaleria/usuarios/usuario_nuevo.html', {'form':form})
  
 def usuario_pefil(request):
     mas_datos, _ = User.objects.get_or_create(username=request.user)
+    avatar_usuario = avatar.objects.filter(user=request.user).first()
     return render(request, 'appgaleria/usuarios/usuario_perfil.html', 
                   {'mas_datos':mas_datos ,
-                   #'user_avatar':buscar_url_avatar(request.user)
-                   })
+                  'avatar_usuario': avatar_usuario})
+    #return render(request, 'appgaleria/usuarios/usuario_perfil.html', 
+                  
+                 #  'user_avatar': veravatar(request.imagen)})
 
 @login_required
 def usuario_eliminar(request,pk):
@@ -169,7 +189,7 @@ def usuarios_editar(request, pk):
             user_nueva = form.save(commit=False)
             user_nueva.username = request.user.username
             user_nueva.save()
-            return render(request, "appgaleria/home.html")
+            return render(request, 'appgaleria/usuarios/usuario_perfil.html')
     context = {'form':form}
     return render(request, 'appgaleria/usuarios/usuario_editar.html', context)
 
