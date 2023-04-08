@@ -81,6 +81,32 @@ class usuarioformregistro(forms.ModelForm):
                avatars.save()  
         return user
  
+class editarperfilclass(forms.ModelForm):
+    imagen = forms.ImageField(label='Avatar', required=False)
+
+    class Meta:
+        model = User
+        fields = ["first_name", "last_name", "email", "username"]
+        help_texts = {k: "" for k in fields}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields.update(avatarform().fields)
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        imagen = self.cleaned_data.get('imagen')
+        if commit:
+            user.save()
+            if imagen:
+                try:
+                    avatar_obj = avatar.objects.get(user=user)
+                    avatar_obj.imagen = imagen
+                    avatar_obj.save()
+                except avatar.DoesNotExist:
+                    avatar_obj = avatar(user=user, imagen=imagen)
+                    avatar_obj.save()
+        return user
 
 class avatarform(forms.ModelForm):
        class Meta:
